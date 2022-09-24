@@ -25,6 +25,7 @@
   <module>Containers_1.3</module>
   <module>Sorting_2.5</module>
   <module>BinarySearchTree_3.2</module>
+    <module>RedBlackBST_3.3</module>
 </modules>
 
   <build>
