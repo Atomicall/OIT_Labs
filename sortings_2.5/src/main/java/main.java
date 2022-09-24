@@ -2,6 +2,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 // 2.5.28 Сортировка файлов по именам
+// add [path] to Program arguments
 //using [path] [-a || -d]
 
 public class main {
