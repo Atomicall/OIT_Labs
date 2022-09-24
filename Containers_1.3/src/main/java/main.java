@@ -1,7 +1,6 @@
 //1.3 Творческие задания, 1.3.39 - Кольцевой буфер
 // При переполнении перезапись не производится
 import java.util.Arrays;
-
 public class main {
     private final static int capacity = 5;
     public static void main(String[] args) {
