@@ -25,9 +25,9 @@
   </dependencies>
 
 <modules>
-    <module>BST_3.2.14</module>
   <module>Containers_1.3</module>
   <module>Sorting_2.5</module>
+  <module>BinarySearchTree_3.2</module>
 </modules>
 
   <build>
