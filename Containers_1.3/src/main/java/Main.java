@@ -1,7 +1,7 @@
 //1.3 Творческие задания, 1.3.39 - Кольцевой буфер
 // При переполнении перезапись не производится
 import java.util.Arrays;
-public class main {
+public class Main {
     private final static int capacity = 5;
     public static void main(String[] args) {
         RingBuffer<Integer> b = new RingBufferImpl<>(capacity);
@@ -9,7 +9,7 @@ public class main {
             if (!b.push(i)){
                 System.out.printf("Failed to push:%d, buffer is full, capacity is %d\n",
                         i, capacity);
-            };
+            }
         }
         System.out.println(Arrays.toString(b.toArray()));
         System.out.println("Pop:" + b.pop());

@@ -1,5 +1,3 @@
-package org.example;
-
 import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -8,7 +6,7 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     private Node root;             // root of BST
 
     private class Node {
-        private Key key;           // sorted by key
+        private final Key key;           // sorted by key
         private Value val;         // associated data
         private Node left, right;  // left and right subtrees
         private int N;             // number of nodes in subtree
@@ -26,14 +24,16 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
 
     public void printByLevel(Node root)
     {
-        Queue<Node> qe = new LinkedList<Node>();
+        Queue<Node> qe = new LinkedList<>();
         if(root == null) return;
         qe.add(root);
         int count = qe.size();
         while(count!=0)
         {
+            assert qe.peek() != null;
             System.out.print(qe.peek().key);
             System.out.print("  ");
+            assert qe.peek() != null;
             if(qe.peek().left!=null) qe.add(qe.peek().left);
             if(qe.peek().right!=null) qe.add(qe.peek().right);
             qe.remove(); count = count -1;
@@ -175,11 +175,11 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     }
 
     public Key max() {
+        if (isEmpty()) return null;
         return max(root).key;
     }
 
     private Node max(Node x) {
-        if (isEmpty()) return null;
         Node tempNode = x;
         while (tempNode.right!= null){
             tempNode = tempNode.right;
@@ -274,10 +274,22 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     // Return key of rank k.
     private Node select(Node x, int k) {
         if (x == null) return null;
-        int t = size(x.left);
-        if      (t > k) return select(x.left,  k);
-        else if (t < k) return select(x.right, k-t-1);
-        else            return x;
+        Node tempNode = x;
+        int tempRank= k;
+        while (tempNode!= null){
+            int t = size(tempNode.left);
+            if (t > tempRank){
+                tempNode = tempNode.left;
+            }
+            else if (t < tempRank){
+                tempNode = tempNode.right;
+                tempRank = tempRank - t -1;
+            }
+            else {
+                return tempNode;
+            }
+        }
+        return null;
     }
 
     public int rank(Key key) {
@@ -286,11 +298,22 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
 
     // Number of keys in the subtree less than x.key.
     private int rank(Key key, Node x) {
-        if (x == null) return 0;
-        int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return rank(key, x.left);
-        else if (cmp > 0) return 1 + size(x.left) + rank(key, x.right);
-        else              return size(x.left);
+        Node tempNode = x;
+        int summator = 0;
+        while (tempNode!= null){
+            int cmp = key.compareTo(tempNode.key);
+            if (cmp < 0){
+                tempNode = tempNode.left;
+            }
+            else if (cmp>0){
+                summator += 1 + size(tempNode.left);
+                tempNode = tempNode.right;
+            }
+            else {
+                return size(tempNode.left) + summator;
+            }
+        }
+        return 0;
     }
 
     /***********************************************************************
