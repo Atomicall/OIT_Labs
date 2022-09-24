@@ -1,5 +1,3 @@
-package org.example;
-
 import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -8,7 +6,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     private Node root;             // root of BST
 
     private class Node {
-        private Key key;           // sorted by key
+        private final Key key;           // sorted by key
         private Value val;         // associated data
         private Node left, right;  // left and right subtrees
         private int N;             // number of nodes in subtree
@@ -26,14 +24,16 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
 
     public void printByLevel(Node root)
     {
-        Queue<Node> qe = new LinkedList<Node>();
+        Queue<Node> qe = new LinkedList<>();
         if(root == null) return;
         qe.add(root);
         int count = qe.size();
         while(count!=0)
         {
+            assert qe.peek()!=null;
             System.out.print(qe.peek().key);
             System.out.print("  ");
+            assert qe.peek()!=null;
             if(qe.peek().left!=null) qe.add(qe.peek().left);
             if(qe.peek().right!=null) qe.add(qe.peek().right);
             qe.remove(); count = count -1;

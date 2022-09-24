@@ -5,32 +5,25 @@ import java.util.List;
 // add [path] to Program arguments
 //using [path] [-a || -d]
 
-public class main {
+public class Main {
     private static boolean ascendingSort;
     private static String path;
-    private static final List<String> directories = new ArrayList<String>();
-    private static final List<String> files = new ArrayList<String>();
+    private static final List<String> directories = new ArrayList<>();
+    private static final List<String> files = new ArrayList<>();
 
     private static void readArgs(String[] args){
         if (args.length < 2) {
             System.out.println("there is < 2 args");
-            return;
+            System.exit(-1);
         }
         path = args[0];
         String sortingOrder = args[1];
-        switch (sortingOrder){
-            case "-a":{
-                ascendingSort = true;
-                break;
-            }
-            case  "-d":{
-                ascendingSort = false;
-                break;
-            }
-            default:{
+        switch (sortingOrder) {
+            case "-a" ->  ascendingSort = true;
+            case "-d" ->  ascendingSort = false;
+            default -> {
                 System.out.println("Unknown sorting order arg, using default: asc");
                 ascendingSort = true;
-                break;
             }
         }
     }
