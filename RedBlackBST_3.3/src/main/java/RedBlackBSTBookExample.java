@@ -8,11 +8,11 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
 
     // BST helper node data type
     class Node {
-        private Key key;           // key
-        private Value val;         // associated data
-        private Node left, right;  // links to left and right subtrees
-        private boolean color;     // color of parent link
-        private int N;             // subtree count
+        protected Key key;           // key
+        protected Value val;         // associated data
+        protected Node left, right;  // links to left and right subtrees
+        protected boolean color;     // color of parent link
+        protected int N;             // subtree count
 
         public Node(Key key, Value val, boolean color, int N) {
             this.key = key;
@@ -20,13 +20,26 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
             this.color = color;
             this.N = N;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Node node = (Node) o;
+            if (color != node.color) return false;
+            if (N != node.N) return false;
+            if (key != null ? !key.equals(node.key) : node.key != null) return false;
+            if (val != null ? !val.equals(node.val) : node.val != null) return false;
+            if (left != null ? !left.equals(node.left) : node.left != null) return false;
+            return right != null ? right.equals(node.right) : node.right == null;
+        }
     }
 
     /*************************************************************************
      *  Node helper methods
      *************************************************************************/
     // is node x red; false if x is null ?
-    private boolean isRed(Node x) {
+    protected boolean isRed(Node x) {
         if (x == null) return false;
         return (x.color == RED);
     }
@@ -58,7 +71,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     public Value get(Key key) { return get(root, key); }
 
     // value associated with the given key in subtree rooted at x; null if no such key
-    private Value get(Node x, Key key) {
+    protected Value get(Node x, Key key) {
         while (x != null) {
             int cmp = key.compareTo(x.key);
             if      (cmp < 0) x = x.left;
@@ -74,7 +87,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // is there a key-value pair with the given key in the subtree rooted at x?
-    private boolean contains(Node x, Key key) {
+    protected boolean contains(Node x, Key key) {
         return (get(x, key) != null);
     }
 
@@ -126,7 +139,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // delete the key-value pair with the minimum key rooted at h
-    private Node deleteMin(Node h) {
+    protected Node deleteMin(Node h) {
         if (h.left == null)
             return null;
 
@@ -184,9 +197,8 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // delete the key-value pair with the given key rooted at h
-    private Node delete(Node h, Key key) {
+    protected Node delete(Node h, Key key) {
         assert contains(h, key);
-
         if (key.compareTo(h.key) < 0)  {
             if (!isRed(h.left) && !isRed(h.left.left))
                 h = moveRedLeft(h);
@@ -196,7 +208,10 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
             if (isRed(h.left))
                 h = rotateRight(h);
             if (key.compareTo(h.key) == 0 && (h.right == null))
+            {
                 return null;
+            }
+
             if (!isRed(h.right) && !isRed(h.right.left))
                 h = moveRedRight(h);
             if (key.compareTo(h.key) == 0) {
@@ -214,7 +229,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
      *************************************************************************/
 
     // make a left-leaning link lean to the right
-    private Node rotateRight(Node h) {
+    protected Node rotateRight(Node h) {
         assert (h != null) && isRed(h.left);
         Node x = h.left;
         h.left = x.right;
@@ -252,7 +267,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
 
     // Assuming that h is red and both h.left and h.left.left
     // are black, make h.left or one of its children red.
-    private Node moveRedLeft(Node h) {
+    protected Node moveRedLeft(Node h) {
         assert (h != null);
         assert isRed(h) && !isRed(h.left) && !isRed(h.left.left);
 
@@ -267,7 +282,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
 
     // Assuming that h is red and both h.right and h.right.left
     // are black, make h.right or one of its children red.
-    private Node moveRedRight(Node h) {
+    protected Node moveRedRight(Node h) {
         assert (h != null);
         assert isRed(h) && !isRed(h.right) && !isRed(h.right.left);
         flipColors(h);
@@ -279,7 +294,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // restore red-black tree invariant
-    private Node balance(Node h) {
+    protected Node balance(Node h) {
         assert (h != null);
 
         if (isRed(h.right))                      h = rotateLeft(h);
@@ -313,7 +328,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // the smallest key in subtree rooted at x; null if no such key
-    private Node min(Node x) {
+    protected Node min(Node x) {
         assert x != null;
         if (x.left == null) return x;
         else                return min(x.left);

@@ -40,7 +40,7 @@ public class Main {
         randomizeArray(indexes);
         for (int i = 0; i < indexes.size(); i++) {
             bst.put(indexes.get(i), textStrings.get(i));
-            bstNR.put(indexes.get(i), textStrings.get(i));
+            bstNR.put(indexes.get(i), textStrings.get(indexes.get(i)));
         }
         System.out.printf("%-19s | NonRecursive\n", "Recursive");
         System.out.printf("%-19s | %s \n", "Size: " + bst.size(), bstNR.size());
