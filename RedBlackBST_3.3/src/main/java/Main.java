@@ -32,6 +32,9 @@ public class Main {
             indexes.add(i);
         }
         randomizeArray(indexes);
+        System.out.println("Indexes:");
+        System.out.println(indexes.toString());
+        System.out.println("<-Filling the BST->");
         for (int i = 0; i < indexes.size(); i++) {
             bst.put(indexes.get(i), textStrings.get(indexes.get(i)));
         }
