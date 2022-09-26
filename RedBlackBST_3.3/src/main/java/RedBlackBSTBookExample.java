@@ -2,7 +2,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
-    private static final boolean RED   = true;
+    protected static final boolean RED   = true;
     private static final boolean BLACK = false;
     private Node root;     // root of the BST
 
@@ -45,7 +45,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // number of node in subtree rooted at x; 0 if x is null
-    private int size(Node x) {
+    protected int size(Node x) {
         if (x == null) return 0;
         return x.N;
     }
@@ -104,7 +104,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // insert the key-value pair in the subtree rooted at h
-    private Node put(Node h, Key key, Value val) {
+    protected Node put(Node h, Key key, Value val) {
         if (h == null) return new Node(key, val, RED, 1);
 
         int cmp = key.compareTo(h.key);
@@ -242,7 +242,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // make a right-leaning link lean to the left
-    private Node rotateLeft(Node h) {
+    protected Node rotateLeft(Node h) {
         assert (h != null) && isRed(h.right);
         Node x = h.right;
         h.right = x.left;
@@ -255,7 +255,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // flip the colors of a node and its two children
-    private void flipColors(Node h) {
+    protected void flipColors(Node h) {
         // h must have opposite color of its two children
         assert (h != null) && (h.left != null) && (h.right != null);
         assert (!isRed(h) &&  isRed(h.left) &&  isRed(h.right))

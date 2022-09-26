@@ -49,5 +49,14 @@ public class Main {
         if (bst.contains(indexes.get(3))){
             System.out.println(bst.get(indexes.get(randomIndex)));
         }
+        System.out.println("<-Testing put cache->");
+        System.out.println("<-Adding 1st time->");
+        bst.put(indexes.size() + 2, "TestString");
+        System.out.println("<-Adding 2nd time->");
+        bst.put(indexes.size() + 2, "TestString");
+        System.out.println("<-Searching then printing element->");
+        if (bst.contains(indexes.size() + 2)){
+            System.out.println(bst.get(indexes.size() + 2));
+        }
     }
 }
