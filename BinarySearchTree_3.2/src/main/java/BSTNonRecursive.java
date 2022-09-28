@@ -5,47 +5,30 @@ import java.util.Queue;
 public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     private Node root;             // root of BST
 
-    private class Node {
-        private final Key key;           // sorted by key
-        private Value val;         // associated data
-        private Node left, right;  // left and right subtrees
-        private int N;             // number of nodes in subtree
-
-        public Node(Key key, Value val, int N) {
-            this.key = key;
-            this.val = val;
-            this.N = N;
-        }
-    }
-
-    public void printByLevel(){
+    public void printByLevel() {
         printByLevel(this.root);
     }
 
-    public void printByLevel(Node root)
-    {
+    public void printByLevel(Node root) {
         Queue<Node> qe = new LinkedList<>();
-        if(root == null) return;
+        if (root == null) return;
         qe.add(root);
         int count = qe.size();
-        while(count!=0)
-        {
+        while (count != 0) {
             assert qe.peek() != null;
             System.out.print(qe.peek().key);
             System.out.print("  ");
             assert qe.peek() != null;
-            if(qe.peek().left!=null) qe.add(qe.peek().left);
-            if(qe.peek().right!=null) qe.add(qe.peek().right);
-            qe.remove(); count = count -1;
-            if(count == 0 )
-            {
+            if (qe.peek().left != null) qe.add(qe.peek().left);
+            if (qe.peek().right != null) qe.add(qe.peek().right);
+            qe.remove();
+            count = count - 1;
+            if (count == 0) {
                 System.out.println("  ");
                 count = qe.size();
             }
         }
     }
-
-
 
     // is the symbol table empty?
     public boolean isEmpty() {
@@ -80,9 +63,9 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     private Value get(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return get(x.left, key);
+        if (cmp < 0) return get(x.left, key);
         else if (cmp > 0) return get(x.right, key);
-        else              return x.val;
+        else return x.val;
     }
 
     /***********************************************************************
@@ -90,7 +73,10 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
      *  If key already exists, update with new value
      ***********************************************************************/
     public void put(Key key, Value val) {
-        if (val == null) { delete(key); return; }
+        if (val == null) {
+            delete(key);
+            return;
+        }
         root = put(root, key, val);
         assert check();
     }
@@ -98,9 +84,9 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     private Node put(Node x, Key key, Value val) {
         if (x == null) return new Node(key, val, 1);
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.left  = put(x.left,  key, val);
+        if (cmp < 0) x.left = put(x.left, key, val);
         else if (cmp > 0) x.right = put(x.right, key, val);
-        else              x.val   = val;
+        else x.val = val;
         x.N = 1 + size(x.left) + size(x.right);
         return x;
     }
@@ -143,11 +129,11 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     private Node delete(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.left  = delete(x.left,  key);
+        if (cmp < 0) x.left = delete(x.left, key);
         else if (cmp > 0) x.right = delete(x.right, key);
         else {
             if (x.right == null) return x.left;
-            if (x.left  == null) return x.right;
+            if (x.left == null) return x.right;
             Node t = x;
             x = min(t.right);
             x.right = deleteMin(t.right);
@@ -156,7 +142,6 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
         x.N = size(x.left) + size(x.right) + 1;
         return x;
     }
-
 
     /***********************************************************************
      *  Min, max, floor, and ceiling
@@ -168,7 +153,7 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     public Node min(Node x) {
         if (isEmpty()) return null;
         Node tempNode = x;
-        while (tempNode.left!= null){
+        while (tempNode.left != null) {
             tempNode = tempNode.left;
         }
         return tempNode;
@@ -181,7 +166,7 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
 
     private Node max(Node x) {
         Node tempNode = x;
-        while (tempNode.right!= null){
+        while (tempNode.right != null) {
             tempNode = tempNode.right;
         }
         return tempNode;
@@ -193,6 +178,23 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
         else return x.key;
     }
 
+    private Node floor(Node x, Key key) {
+        if (x == null) return null;
+        Node currNode = x;
+        Node prevNode = null;
+        while (currNode != null) {
+            int cmp = key.compareTo(currNode.key);
+            if (cmp == 0) return currNode;
+            if (cmp < 0) {
+                //prevNode = currNode;
+                currNode = currNode.left;
+            } else {
+                prevNode = currNode;
+                currNode = currNode.right;
+            }
+        }
+        return prevNode;
+    }
 //    private Node floor(Node x, Key key) {
 //        if (x == null) return null;
 //        Node currNode = x;
@@ -220,42 +222,23 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
 //        return prevNode;
 //    }
 
-    private Node floor(Node x, Key key){
-        if (x == null) return null;
-        Node currNode = x;
-        Node prevNode = null;
-        while (currNode!= null){
-            int cmp = key.compareTo(currNode.key);
-            if (cmp == 0) return currNode;
-            if (cmp <  0) {
-                //prevNode = currNode;
-                currNode = currNode.left;
-            }
-            else {
-                prevNode = currNode;
-                currNode = currNode.right;
-            }
-            }
-        return prevNode;
-    }
     public Key ceiling(Key key) {
         Node x = ceiling(root, key);
         if (x == null) return null;
         else return x.key;
     }
 
-    private Node ceiling(Node x, Key key){
+    private Node ceiling(Node x, Key key) {
         if (x == null) return null;
         Node currNode = x;
         Node prevNode = null;
-        while (currNode!= null){
+        while (currNode != null) {
             int cmp = key.compareTo(currNode.key);
             if (cmp == 0) return currNode;
-            if (cmp <  0) {
+            if (cmp < 0) {
                 prevNode = currNode;
                 currNode = currNode.left;
-            }
-            else {
+            } else {
                 currNode = currNode.right;
             }
         }
@@ -266,7 +249,7 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
      *  Rank and selection
      ***********************************************************************/
     public Key select(int k) {
-        if (k < 0 || k >= size())  return null;
+        if (k < 0 || k >= size()) return null;
         Node x = select(root, k);
         return x.key;
     }
@@ -275,17 +258,15 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     private Node select(Node x, int k) {
         if (x == null) return null;
         Node tempNode = x;
-        int tempRank= k;
-        while (tempNode!= null){
+        int tempRank = k;
+        while (tempNode != null) {
             int t = size(tempNode.left);
-            if (t > tempRank){
+            if (t > tempRank) {
                 tempNode = tempNode.left;
-            }
-            else if (t < tempRank){
+            } else if (t < tempRank) {
                 tempNode = tempNode.right;
-                tempRank = tempRank - t -1;
-            }
-            else {
+                tempRank = tempRank - t - 1;
+            } else {
                 return tempNode;
             }
         }
@@ -300,16 +281,14 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     private int rank(Key key, Node x) {
         Node tempNode = x;
         int summator = 0;
-        while (tempNode!= null){
+        while (tempNode != null) {
             int cmp = key.compareTo(tempNode.key);
-            if (cmp < 0){
+            if (cmp < 0) {
                 tempNode = tempNode.left;
-            }
-            else if (cmp>0){
+            } else if (cmp > 0) {
                 summator += 1 + size(tempNode.left);
                 tempNode = tempNode.right;
-            }
-            else {
+            } else {
                 return size(tempNode.left) + summator;
             }
         }
@@ -341,12 +320,14 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     public int size(Key lo, Key hi) {
         if (lo.compareTo(hi) > 0) return 0;
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
+        else return rank(hi) - rank(lo);
     }
 
-
     // height of this BST (one-node tree has height 0)
-    public int height() { return height(root); }
+    public int height() {
+        return height(root);
+    }
+
     private int height(Node x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.left), height(x.right));
@@ -356,7 +337,7 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
      *  Check integrity of BST data structure
      *************************************************************************/
     private boolean check() {
-        if (!isBST())            System.out.println("Not in symmetric order");
+        if (!isBST()) System.out.println("Not in symmetric order");
         if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
         if (!isRankConsistent()) System.out.println("Ranks not consistent");
         return isBST() && isSizeConsistent() && isRankConsistent();
@@ -379,7 +360,10 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
     }
 
     // are the size fields correct?
-    private boolean isSizeConsistent() { return isSizeConsistent(root); }
+    private boolean isSizeConsistent() {
+        return isSizeConsistent(root);
+    }
+
     private boolean isSizeConsistent(Node x) {
         if (x == null) return true;
         if (x.N != size(x.left) + size(x.right) + 1) return false;
@@ -393,6 +377,19 @@ public class BSTNonRecursive<Key extends Comparable<Key>, Value> {
         for (Key key : keys())
             if (key.compareTo(select(rank(key))) != 0) return false;
         return true;
+    }
+
+    private class Node {
+        private final Key key;           // sorted by key
+        private Value val;         // associated data
+        private Node left, right;  // left and right subtrees
+        private int N;             // number of nodes in subtree
+
+        public Node(Key key, Value val, int N) {
+            this.key = key;
+            this.val = val;
+            this.N = N;
+        }
     }
 }
 

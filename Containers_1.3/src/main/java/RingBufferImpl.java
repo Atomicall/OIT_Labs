@@ -1,36 +1,76 @@
 import java.util.Arrays;
-public class RingBufferImpl<T> implements RingBuffer<T>{
-// non thread-safe
-    private final int capacity;
-    private final T[] data;
+import java.util.NoSuchElementException;
 
+// non thread-safe
+public class RingBufferImpl<T> implements RingBuffer<T> {
+
+    private final T[] data;
+    private final int capacity;
+    private boolean isFull = false;
     private int pushPosition; // ++ when insert element
     private int popPosition; // -- when consume element
-    public RingBufferImpl(int capacity) {
-        if (capacity < 1 ) throw new IllegalArgumentException();
+
+    public RingBufferImpl(int capacity) throws IllegalArgumentException {
+        if (capacity < 1) throw new IllegalArgumentException();
         this.capacity = capacity;
-        this.data = (T[])new Object[capacity];
-        this.pushPosition = -1;
-        this.popPosition = 0;
+        data = (T[]) new Object[capacity];
     }
 
     @Override
-    public boolean push(T element) {
-        if (!isFull()){
-            data[++pushPosition % capacity] = element;
+    public boolean add(T element) throws NullPointerException {
+        if (element == null) {
+            throw new NullPointerException("Element to push is null");
+        }
+        if (!isFull()) {
+            data[pushPosition++] = element;
+            if (pushPosition == capacity) {
+                pushPosition = 0;
+            }
+            if (pushPosition == popPosition) {
+                isFull = true;
+            }
             return true;
         }
         return false;
+    }
+
+    @Override
+    public T poll() throws NoSuchElementException {
+        if (!isEmpty()) {
+            T element = data[popPosition];
+            data[popPosition++] = null;
+            if (popPosition == capacity) {
+                popPosition = 0;
+            }
+            isFull = false;
+            return element;
+        } else {
+            throw new NoSuchElementException("Fifo is empty");
+        }
+    }
+
+    @Override
+    public int size() {
+        int size;
+        if (pushPosition < popPosition) {
+            size = capacity - popPosition + pushPosition;
+        } else if (pushPosition > popPosition) {
+            size = pushPosition - popPosition;
+        } else {
+            size = isFull ? capacity : 0;
+        }
+        return size;
 
     }
+
     @Override
-    public T pop() {
-        if (!isEmpty()){
-            T element = data[popPosition % capacity];
-            data[popPosition++ % capacity] = null;
-            return element;
-        }
-        else return null;
+    public boolean isFull() {
+        return size() >= capacity;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size() == 0;
     }
 
     @Override
@@ -38,23 +78,7 @@ public class RingBufferImpl<T> implements RingBuffer<T>{
         return capacity;
     }
 
-    @Override
-    public int size() {
-        return pushPosition - popPosition + 1;
+    public T[] toArray() {
+        return Arrays.copyOf(data, data.length);
     }
-
-    @Override
-    public boolean isFull() {
-        return size()>= capacity;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return pushPosition < popPosition;
-    }
-
-    public T[] toArray(){
-        return Arrays.copyOf( data, data.length);
-    }
-
 }
