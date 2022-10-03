@@ -5,46 +5,30 @@ import java.util.Queue;
 public class BSTBookExample<Key extends Comparable<Key>, Value> {
     private Node root;             // root of BST
 
-    private class Node {
-        private final Key key;           // sorted by key
-        private Value val;         // associated data
-        private Node left, right;  // left and right subtrees
-        private int N;             // number of nodes in subtree
-
-        public Node(Key key, Value val, int N) {
-            this.key = key;
-            this.val = val;
-            this.N = N;
-        }
-    }
-
-    public void printByLevel(){
+    public void printByLevel() {
         printByLevel(this.root);
     }
 
-    public void printByLevel(Node root)
-    {
+    public void printByLevel(Node root) {
         Queue<Node> qe = new LinkedList<>();
-        if(root == null) return;
+        if (root == null) return;
         qe.add(root);
         int count = qe.size();
-        while(count!=0)
-        {
-            assert qe.peek()!=null;
+        while (count != 0) {
+            assert qe.peek() != null;
             System.out.print(qe.peek().key);
             System.out.print("  ");
-            assert qe.peek()!=null;
-            if(qe.peek().left!=null) qe.add(qe.peek().left);
-            if(qe.peek().right!=null) qe.add(qe.peek().right);
-            qe.remove(); count = count -1;
-            if(count == 0 )
-            {
+            assert qe.peek() != null;
+            if (qe.peek().left != null) qe.add(qe.peek().left);
+            if (qe.peek().right != null) qe.add(qe.peek().right);
+            qe.remove();
+            count = count - 1;
+            if (count == 0) {
                 System.out.println("  ");
                 count = qe.size();
             }
         }
     }
-
 
     // is the symbol table empty?
     public boolean isEmpty() {
@@ -79,9 +63,9 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     private Value get(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return get(x.left, key);
+        if (cmp < 0) return get(x.left, key);
         else if (cmp > 0) return get(x.right, key);
-        else              return x.val;
+        else return x.val;
     }
 
     /***********************************************************************
@@ -89,7 +73,10 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
      *  If key already exists, update with new value
      ***********************************************************************/
     public void put(Key key, Value val) {
-        if (val == null) { delete(key); return; }
+        if (val == null) {
+            delete(key);
+            return;
+        }
         root = put(root, key, val);
         assert check();
     }
@@ -97,9 +84,9 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     private Node put(Node x, Key key, Value val) {
         if (x == null) return new Node(key, val, 1);
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.left  = put(x.left,  key, val);
+        if (cmp < 0) x.left = put(x.left, key, val);
         else if (cmp > 0) x.right = put(x.right, key, val);
-        else              x.val   = val;
+        else x.val = val;
         x.N = 1 + size(x.left) + size(x.right);
         return x;
     }
@@ -142,11 +129,11 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     private Node delete(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) x.left  = delete(x.left,  key);
+        if (cmp < 0) x.left = delete(x.left, key);
         else if (cmp > 0) x.right = delete(x.right, key);
         else {
             if (x.right == null) return x.left;
-            if (x.left  == null) return x.right;
+            if (x.left == null) return x.right;
             Node t = x;
             x = min(t.right);
             x.right = deleteMin(t.right);
@@ -155,7 +142,6 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         x.N = size(x.left) + size(x.right) + 1;
         return x;
     }
-
 
     /***********************************************************************
      *  Min, max, floor, and ceiling
@@ -167,7 +153,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
 
     private Node min(Node x) {
         if (x.left == null) return x;
-        else                return min(x.left);
+        else return min(x.left);
     }
 
     public Key max() {
@@ -177,7 +163,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
 
     private Node max(Node x) {
         if (x.right == null) return x;
-        else                 return max(x.right);
+        else return max(x.right);
     }
 
     public Key floor(Key key) {
@@ -190,7 +176,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
-        if (cmp <  0) return floor(x.left, key);
+        if (cmp < 0) return floor(x.left, key);
         Node t = floor(x.right, key);
         if (t != null) return t;
         else return x;
@@ -218,7 +204,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
      *  Rank and selection
      ***********************************************************************/
     public Key select(int k) {
-        if (k < 0 || k >= size())  return null;
+        if (k < 0 || k >= size()) return null;
         Node x = select(root, k);
         return x.key;
     }
@@ -227,9 +213,9 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     private Node select(Node x, int k) {
         if (x == null) return null;
         int t = size(x.left);
-        if      (t > k) return select(x.left,  k);
-        else if (t < k) return select(x.right, k-t-1);
-        else            return x;
+        if (t > k) return select(x.left, k);
+        else if (t < k) return select(x.right, k - t - 1);
+        else return x;
     }
 
     public int rank(Key key) {
@@ -240,9 +226,9 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     private int rank(Key key, Node x) {
         if (x == null) return 0;
         int cmp = key.compareTo(x.key);
-        if      (cmp < 0) return rank(key, x.left);
+        if (cmp < 0) return rank(key, x.left);
         else if (cmp > 0) return 1 + size(x.left) + rank(key, x.right);
-        else              return size(x.left);
+        else return size(x.left);
     }
 
     /***********************************************************************
@@ -270,12 +256,14 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     public int size(Key lo, Key hi) {
         if (lo.compareTo(hi) > 0) return 0;
         if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
+        else return rank(hi) - rank(lo);
     }
 
-
     // height of this BST (one-node tree has height 0)
-    public int height() { return height(root); }
+    public int height() {
+        return height(root);
+    }
+
     private int height(Node x) {
         if (x == null) return -1;
         return 1 + Math.max(height(x.left), height(x.right));
@@ -285,7 +273,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
      *  Check integrity of BST data structure
      *************************************************************************/
     private boolean check() {
-        if (!isBST())            System.out.println("Not in symmetric order");
+        if (!isBST()) System.out.println("Not in symmetric order");
         if (!isSizeConsistent()) System.out.println("Subtree counts not consistent");
         if (!isRankConsistent()) System.out.println("Ranks not consistent");
         return isBST() && isSizeConsistent() && isRankConsistent();
@@ -308,7 +296,10 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // are the size fields correct?
-    private boolean isSizeConsistent() { return isSizeConsistent(root); }
+    private boolean isSizeConsistent() {
+        return isSizeConsistent(root);
+    }
+
     private boolean isSizeConsistent(Node x) {
         if (x == null) return true;
         if (x.N != size(x.left) + size(x.right) + 1) return false;
@@ -322,6 +313,19 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         for (Key key : keys())
             if (key.compareTo(select(rank(key))) != 0) return false;
         return true;
+    }
+
+    private class Node {
+        private final Key key;           // sorted by key
+        private Value val;         // associated data
+        private Node left, right;  // left and right subtrees
+        private int N;             // number of nodes in subtree
+
+        public Node(Key key, Value val, int N) {
+            this.key = key;
+            this.val = val;
+            this.N = N;
+        }
     }
 }
 

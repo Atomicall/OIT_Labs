@@ -1,19 +1,10 @@
-
 // 3.2.14
 // write non-recursive methods min(), max(), floor(), ceiling(), rank(), select()
-
 import java.security.SecureRandom;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    public static void randomizeArray(List<Integer> array) {
-        SecureRandom rand = new SecureRandom();
-        array.replaceAll((o) -> {
-            return rand.nextInt(array.size());
-        });
-    }
-
     public static List<String> textStrings = List.of(
             "Big",
             "Orange",
@@ -27,14 +18,19 @@ public class Main {
             "Z",
             "A"
     );
-    public static List<Integer> indexes= new ArrayList<>();
+    public static List<Integer> indexes = new ArrayList<>();
+
+    public static void randomizeArray(List<Integer> array) {
+        SecureRandom rand = new SecureRandom();
+        array.replaceAll((o) -> {
+            return rand.nextInt(array.size());
+        });
+    }
 
     public static void main(String[] args) {
-
         BSTNonRecursive<Integer, String> bstNR = new BSTNonRecursive<>();
         BSTBookExample<Integer, String> bst = new BSTBookExample<>();
-
-        for (int i = 0; i < textStrings.size(); i++){
+        for (int i = 0; i < textStrings.size(); i++) {
             indexes.add(i);
         }
         randomizeArray(indexes);
