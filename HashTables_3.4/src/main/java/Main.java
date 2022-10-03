@@ -9,7 +9,7 @@ public class Main {
     private static final SecureRandom random = new SecureRandom();
 
     public static void main(String[] args) {
-        SeparateChainingHashST<Integer, Integer> st = new SeparateChainingHashST<Integer, Integer>();
+        SeparateChainingHashST<Integer, Integer> st = new SeparateChainingHashST<>();
         for (int i = 0; i < COUNT; i++) {
             int randomValue = random.nextInt();
             st.put(randomValue, randomValue);
