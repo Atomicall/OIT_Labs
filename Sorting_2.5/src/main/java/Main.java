@@ -6,59 +6,59 @@ import java.util.List;
 //using [path] [-a || -d]
 
 public class Main {
-    private static final List<String> directories = new ArrayList<>();
-    private static final List<String> files = new ArrayList<>();
-    private static boolean ascendingSort;
-    private static String path;
+    private static final List<String> directoryNames = new ArrayList<>();
+    private static final List<String> fileNames = new ArrayList<>();
+    private static boolean isSortingArgumentAscending;
+    private static String pathArgument;
 
     private static void readArgs(String[] args) {
         if (args.length < 2) {
             System.out.println("there is < 2 args");
             System.exit(-1);
         }
-        path = args[0];
+        pathArgument = args[0];
         String sortingOrder = args[1];
         switch (sortingOrder) {
-            case "-a" -> ascendingSort = true;
-            case "-d" -> ascendingSort = false;
+            case "-a" -> isSortingArgumentAscending = true;
+            case "-d" -> isSortingArgumentAscending = false;
             default -> {
                 System.out.println("Unknown sorting order arg, using default: asc");
-                ascendingSort = true;
+                isSortingArgumentAscending = true;
             }
         }
     }
 
     private static void getContentFromDirectory() {
-        File folder = new File(path);
+        File folder = new File(pathArgument);
         if (!folder.exists()) {
             System.out.println("Failed to open path");
-            return;
+            System.exit(-1);;
         }
         File[] folderContent = folder.listFiles();
         if (folderContent == null || folderContent.length == 0) {
             System.out.println("Target directory is empty OR not a directory");
-            return;
+            System.exit(-1);;
         }
         for (File f : folderContent) {
             if (f.isDirectory()) {
-                directories.add(f.getName());
+                directoryNames.add(f.getName());
 
             } else {
-                files.add(f.getName());
+                fileNames.add(f.getName());
             }
         }
     }
 
     public static void main(String[] args) {
         readArgs(args);
-        System.out.println("Path is \"" + path + "\" ");
+        System.out.println("Path is \"" + pathArgument + "\" ");
         getContentFromDirectory();
-        FileSortingService.sortFileNames(directories, ascendingSort);
-        FileSortingService.sortFileNames(files, ascendingSort);
+        FileSortingService.sortFileNames(directoryNames, isSortingArgumentAscending);
+        FileSortingService.sortFileNames(fileNames, isSortingArgumentAscending);
         System.out.println("Sorted:\nDirectories{");
-        directories.forEach(System.out::println);
+        directoryNames.forEach(System.out::println);
         System.out.println("} \nFiles {");
-        files.forEach(System.out::println);
+        fileNames.forEach(System.out::println);
         System.out.println("}");
     }
 }

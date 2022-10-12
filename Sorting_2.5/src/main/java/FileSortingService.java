@@ -4,9 +4,9 @@ import java.util.List;
 public class FileSortingService {
     public static void sortFileNames(List<String> files, boolean ascSortingOrder) {
         if (ascSortingOrder) {
-            files.sort(String::compareTo);
+            files.sort(String.CASE_INSENSITIVE_ORDER);
         } else {
-            files.sort(Collections.reverseOrder(String::compareTo));
+            files.sort(String.CASE_INSENSITIVE_ORDER.reversed());
         }
     }
 }
