@@ -2,32 +2,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BSTNonRecursive<Key extends Comparable<Key>, Value> extends BSTBookExample<Key, Value> {
-
-    public void printByLevel() {
-        printByLevel(this.root);
-    }
-
-    public void printByLevel(Node root) {
-        Queue<Node> qe = new LinkedList<>();
-        if (root == null) return;
-        qe.add(root);
-        int count = qe.size();
-        while (count != 0) {
-            assert qe.peek() != null;
-            System.out.print(qe.peek().key);
-            System.out.print("  ");
-            assert qe.peek() != null;
-            if (qe.peek().left != null) qe.add(qe.peek().left);
-            if (qe.peek().right != null) qe.add(qe.peek().right);
-            qe.remove();
-            count = count - 1;
-            if (count == 0) {
-                System.out.println("  ");
-                count = qe.size();
-            }
-        }
-    }
-
+    
     @Override
     protected Node min(Node x) {
         Node tempNode = x;
