@@ -3,7 +3,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BSTBookExample<Key extends Comparable<Key>, Value> {
-    private Node root;             // root of BST
+    protected Node root;             // root of BST
 
     public void printByLevel() {
         printByLevel(this.root);
@@ -41,7 +41,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // return number of key-value pairs in BST rooted at x
-    private int size(Node x) {
+    protected int size(Node x) {
         if (x == null) return 0;
         else return x.N;
     }
@@ -151,7 +151,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         return min(root).key;
     }
 
-    private Node min(Node x) {
+    protected Node min(Node x) {
         if (x.left == null) return x;
         else return min(x.left);
     }
@@ -161,7 +161,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         return max(root).key;
     }
 
-    private Node max(Node x) {
+    protected Node max(Node x) {
         if (x.right == null) return x;
         else return max(x.right);
     }
@@ -172,7 +172,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         else return x.key;
     }
 
-    private Node floor(Node x, Key key) {
+    protected Node floor(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
@@ -188,7 +188,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         else return x.key;
     }
 
-    private Node ceiling(Node x, Key key) {
+    protected Node ceiling(Node x, Key key) {
         if (x == null) return null;
         int cmp = key.compareTo(x.key);
         if (cmp == 0) return x;
@@ -210,7 +210,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // Return key of rank k.
-    private Node select(Node x, int k) {
+    protected Node select(Node x, int k) {
         if (x == null) return null;
         int t = size(x.left);
         if (t > k) return select(x.left, k);
@@ -223,7 +223,7 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // Number of keys in the subtree less than x.key.
-    private int rank(Key key, Node x) {
+    protected int rank(Key key, Node x) {
         if (x == null) return 0;
         int cmp = key.compareTo(x.key);
         if (cmp < 0) return rank(key, x.left);
@@ -315,11 +315,11 @@ public class BSTBookExample<Key extends Comparable<Key>, Value> {
         return true;
     }
 
-    private class Node {
-        private final Key key;           // sorted by key
-        private Value val;         // associated data
-        private Node left, right;  // left and right subtrees
-        private int N;             // number of nodes in subtree
+    protected class Node {
+        protected final Key key;           // sorted by key
+        protected Value val;         // associated data
+        protected Node left, right;  // left and right subtrees
+        protected int N;             // number of nodes in subtree
 
         public Node(Key key, Value val, int N) {
             this.key = key;
