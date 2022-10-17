@@ -1,8 +1,5 @@
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class BSTNonRecursive<Key extends Comparable<Key>, Value> extends BSTBookExample<Key, Value> {
-    
+
     @Override
     protected Node min(Node x) {
         Node tempNode = x;

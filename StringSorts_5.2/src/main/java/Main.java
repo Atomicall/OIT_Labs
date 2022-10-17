@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Main {
     public static final int amountOfStrings = 50;
     public static final int length = 10;
