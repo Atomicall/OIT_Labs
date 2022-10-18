@@ -1,0 +1,2 @@
+public class SpellChecker {
+}

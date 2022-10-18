@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>StringSorts_5.2</artifactId>
+    <artifactId>StringSorts_5.1</artifactId>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
