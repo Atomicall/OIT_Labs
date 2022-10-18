@@ -32,12 +32,14 @@ public class Main {
         File folder = new File(pathArgument);
         if (!folder.exists()) {
             System.out.println("Failed to open path");
-            System.exit(-1);;
+            System.exit(-1);
+            ;
         }
         File[] folderContent = folder.listFiles();
         if (folderContent == null || folderContent.length == 0) {
             System.out.println("Target directory is empty OR not a directory");
-            System.exit(-1);;
+            System.exit(-1);
+            ;
         }
         for (File f : folderContent) {
             if (f.isDirectory()) {
