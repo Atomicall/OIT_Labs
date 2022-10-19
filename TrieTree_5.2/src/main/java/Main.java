@@ -1,5 +1,8 @@
 // 5.2.17
 // аргументом ожидается путь к текстовому файлу, содержащему словарь
+//файлы для тестов:
+//https://algs4.cs.princeton.edu/31elementary/tinyTale.txt
+//https://algs4.cs.princeton.edu/31elementary/tale.txt
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,18 +14,18 @@ import java.util.Scanner;
 public class Main {
     private static final StringSetBookExample stringSet = new StringSetBookExample();
     private static final Scanner scanner = new Scanner(System.in);
-    private static String filePath;
+    private static String filePathArgument;
 
     private static void readArgs(String[] args) {
         if (args.length < 1) {
             System.out.println("There is < 1 args, exit");
             System.exit(-1);
         }
-        filePath = args[0];
+        filePathArgument = args[0];
     }
 
     private static void readWordsFromDictionaryFile() {
-        File dictionaryFile = new File(filePath);
+        File dictionaryFile = new File(filePathArgument);
         try (BufferedReader br = new BufferedReader(new FileReader(dictionaryFile))) {
             while (br.ready()) {
                 try {

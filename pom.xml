@@ -29,6 +29,7 @@
     <module>HashTables_3.4</module>
     <module>StringSorts_5.1</module>
   <module>TrieTree_5.2</module>
+    <module>Substrings_5.3</module>
 </modules>
 
   <build>
