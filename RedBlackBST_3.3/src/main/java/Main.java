@@ -36,12 +36,18 @@ public class Main {
             bst.deleteMin();
             bst.contains(-1);
         }
+        System.out.println("<-Testing deleteMin() with cache missing: addind 88 key then deleting min->");
+        bst.put(88, "88String");
+        bst.deleteMin();
         System.out.println("<-Testing deleteMax(): addind 9999 key then deleting->");
         bst.put(9999, "9999String");
         if (bst.contains(9999)) {
-            bst.deleteMin();
+            bst.deleteMax();
             bst.contains(9999);
         }
+        System.out.println("<-Testing deleteMax() with cache missing: addind -2 key then deleting max->");
+        bst.put(-2, "-2String");
+        bst.deleteMax();
         System.out.println("<-Delete element by certain key->");
         bst.delete(indexes.get(randomIndex));
         System.out.println("<-Searching then printing element by certain key 2nd time->");

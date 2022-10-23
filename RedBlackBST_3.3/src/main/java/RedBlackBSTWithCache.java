@@ -87,20 +87,44 @@ public class RedBlackBSTWithCache<Key extends Comparable<Key>, Value> extends Re
     @Override
     public void delete(Key key) {
         super.delete(key);
-        clearPreviousNodeValue();
+        if (checkKeyIsEqualsToPrevKey(key)) {
+            clearPreviousNodeValue();
+        }
     }
 
     @Override
-    public void deleteMin() {
-        super.deleteMin();
-        clearPreviousNodeValue();
-
+    protected Node deleteMin(Node h) {
+        if (h.left == null) {
+            if (checkKeyIsEqualsToPrevKey(h.key)) {
+                System.out.printf("Deleted Min %s from cache\n", h.val);
+                clearPreviousNodeValue();
+            }
+            return null;
+        }
+        if (!isRed(h.left) && !isRed(h.left.left)) {
+            h = moveRedLeft(h);
+        }
+        h.left = deleteMin(h.left);
+        return balance(h);
     }
 
     @Override
-    public void deleteMax() {
-        super.deleteMax();
-        clearPreviousNodeValue();
+    protected Node deleteMax(Node h) {
+        if (isRed(h.left)) {
+            h = rotateRight(h);
+        }
+        if (h.right == null) {
+            if (checkKeyIsEqualsToPrevKey(h.key)) {
+                System.out.printf("Deleted Max %s from cache\n", h.val);
+                clearPreviousNodeValue();
+            }
+            return null;
+        }
+        if (!isRed(h.right) && !isRed(h.right.left)) {
+            h = moveRedRight(h);
+        }
+        h.right = deleteMax(h.right);
+        return balance(h);
     }
 }
 

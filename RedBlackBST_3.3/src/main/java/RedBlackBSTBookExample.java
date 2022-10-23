@@ -89,7 +89,6 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
         return h;
     }
 
-
     /*************************************************************************
      *  Red-black deletion
      *************************************************************************/
@@ -122,7 +121,7 @@ public class RedBlackBSTBookExample<Key extends Comparable<Key>, Value> {
     }
 
     // delete the key-value pair with the maximum key rooted at h
-    private Node deleteMax(Node h) {
+    protected Node deleteMax(Node h) {
         if (isRed(h.left)) h = rotateRight(h);
         if (h.right == null) return null;
         if (!isRed(h.right) && !isRed(h.right.left)) h = moveRedRight(h);
