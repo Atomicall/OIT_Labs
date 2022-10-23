@@ -30,10 +30,22 @@ public class Main {
         if (bst.contains(indexes.get(randomIndex))) {
             System.out.println(bst.get(indexes.get(randomIndex)));
         }
+        System.out.println("<-Testing deleteMin(): addind -1 key then deleting->");
+        bst.put(-1, "-1String");
+        if (bst.contains(-1)) {
+            bst.deleteMin();
+            bst.contains(-1);
+        }
+        System.out.println("<-Testing deleteMax(): addind 9999 key then deleting->");
+        bst.put(9999, "9999String");
+        if (bst.contains(9999)) {
+            bst.deleteMin();
+            bst.contains(9999);
+        }
         System.out.println("<-Delete element by certain key->");
         bst.delete(indexes.get(randomIndex));
         System.out.println("<-Searching then printing element by certain key 2nd time->");
-        if (bst.contains(indexes.get(3))) {
+        if (bst.contains(indexes.get(randomIndex))) {
             System.out.println(bst.get(indexes.get(randomIndex)));
         }
         System.out.println("<-Testing put cache->");

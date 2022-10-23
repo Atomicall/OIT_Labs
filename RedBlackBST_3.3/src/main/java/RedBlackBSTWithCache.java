@@ -11,6 +11,16 @@ public class RedBlackBSTWithCache<Key extends Comparable<Key>, Value> extends Re
         }
     }
 
+    private void clearPreviousNodeValue() {
+        System.out.println("prevNode is null now (has been deleted)");
+        previousUsedNode = null;
+    }
+
+    // тут (во всех get) возвращаемое значение - value.
+    // таким образом Node инкапсулирована в классе BST
+    // и без переписывания исходного класса не получится добавить получение из него Node
+    // а для теста и вообще для задачи была поставлена цель минимально (ну только модификаторы доступа)
+    // изменять исходный класс (чтобы были видны различия)
     @Override
     public Value get(Key key) {
         System.out.println("Looking in cache");
@@ -42,12 +52,17 @@ public class RedBlackBSTWithCache<Key extends Comparable<Key>, Value> extends Re
     public void put(Key key, Value val) {
         System.out.println("Looking in cache");
         if (checkKeyIsEqualsToPrevKey(key)) {
-            System.out.println("Element found in cache:" + previousUsedNode.val);
+            System.out.println("Element found in cache:" + previousUsedNode.val + "\n;Replacing");
             put(previousUsedNode, key, val);
+            assert check();
         }
         super.put(key, val);
     }
 
+    // с put тут то же самое, что и с методом get: Node не выходит за пределы класса
+    // По идее и просто вернуть из него последнюю Node полностью нельзя, т.к метод put исходного класса
+    // на протяжении рекурсии корректирует цвета веток дерева
+    // а также его конечное возвращаемое значение (на самом выходе из метода) всегда равно root
     @Override
     protected Node put(Node h, Key key, Value val) {
         if (h == null) {
@@ -70,28 +85,22 @@ public class RedBlackBSTWithCache<Key extends Comparable<Key>, Value> extends Re
     }
 
     @Override
-    protected Node delete(Node h, Key key) {
-        assert contains(h, key);
-        if (key.compareTo(h.key) < 0) {
-            if (!isRed(h.left) && !isRed(h.left.left)) h = moveRedLeft(h);
-            h.left = delete(h.left, key);
-        } else {
-            if (isRed(h.left)) h = rotateRight(h);
-            if (key.compareTo(h.key) == 0 && (h.right == null)) {
-                if (h.equals(previousUsedNode)) {
-                    System.out.println("prevNode is null now (has been deleted)");
-                    previousUsedNode = null;
-                }
-                return null;
-            }
-            if (!isRed(h.right) && !isRed(h.right.left)) h = moveRedRight(h);
-            if (key.compareTo(h.key) == 0) {
-                h.val = get(h.right, min(h.right).key);
-                h.key = min(h.right).key;
-                h.right = deleteMin(h.right);
-            } else h.right = delete(h.right, key);
-        }
-        return balance(h);
+    public void delete(Key key) {
+        super.delete(key);
+        clearPreviousNodeValue();
+    }
+
+    @Override
+    public void deleteMin() {
+        super.deleteMin();
+        clearPreviousNodeValue();
+
+    }
+
+    @Override
+    public void deleteMax() {
+        super.deleteMax();
+        clearPreviousNodeValue();
     }
 }
 
