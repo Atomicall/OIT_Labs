@@ -33,10 +33,10 @@ public class Main {
         System.out.println("sum " + sum);
         */
         System.out.println("Надо сделать как минимум 20 попыток");
-        System.out.println("С примерной вероятностью (1 - M/N) = " + chance);
+        System.out.println("С примерной вероятностью (1 - M/N) = " + chance + "Выполнится:");
         System.out.println("M - Sqrt(M) < Xi2 < M + Sqrt(M) : ");
         double xi2 = st.getXi2();
-        System.out.printf("%f <= %f <= %f ? %s", lowerBound, xi2, upperBound,
+        System.out.printf("%f <= %f <= %f \nСоотношение выполнилось ? %s", lowerBound, xi2, upperBound,
                 Boolean.valueOf(xi2 >= lowerBound && xi2 <= upperBound).toString().toUpperCase(Locale.ROOT)
         );
     }
