@@ -3,13 +3,13 @@ import java.security.SecureRandom;
 public class StringGenerator {
     private static final SecureRandom random = new SecureRandom();
     // first alphabet upper case symbol in utf-8 table - 65
-    private static final int firstUpperCaseCharSymbol = 'A';
+    private static final int FIRST_UPPER_CASE_CHAR_SYMBOL = 'A';
     // last alphabet upper case symbol in utf-8 table - 90
-    private static final int lastUpperCaseCharSymbol = 'Z';
+    private static final int LAST_UPPER_CASE_CHAR_SYMBOL = 'Z';
     // first alphabet lower case symbol in utf-8 table - 97
-    private static final int firstLowerCaseCharSymbol = 'a';
+    private static final int FIRST_LOWER_CASE_CHAR_SYMBOL = 'a';
     // last alphabet lower case symbol in utf-8 table - 122
-    private static final int lastLowerCaseCharSymbol = 'z';
+    private static final int LAST_LOWER_CASE_CHAR_SYMBOL = 'z';
 
     public static String[] randomFixedLengthWords(int amountOfStrings, int stringLength) {
         String[] strings = new String[amountOfStrings];
@@ -21,9 +21,9 @@ public class StringGenerator {
                 char charValue;
                 // charValue is in range firstUpperCaseCharSymbol - lastLowerCaseCharSymbol except {90..97} symbols
                 do {
-                    offset = random.nextInt(lastLowerCaseCharSymbol - firstUpperCaseCharSymbol + 1);
-                    charValue = (char) (firstUpperCaseCharSymbol + offset);
-                } while (charValue > lastUpperCaseCharSymbol && charValue < firstLowerCaseCharSymbol);
+                    offset = random.nextInt(LAST_LOWER_CASE_CHAR_SYMBOL - FIRST_UPPER_CASE_CHAR_SYMBOL + 1);
+                    charValue = (char) (FIRST_UPPER_CASE_CHAR_SYMBOL + offset);
+                } while (charValue > LAST_UPPER_CASE_CHAR_SYMBOL && charValue < FIRST_LOWER_CASE_CHAR_SYMBOL);
                 builder.append(charValue);
             }
             strings[counter] = builder.toString();
