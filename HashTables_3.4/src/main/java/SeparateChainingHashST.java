@@ -1,5 +1,4 @@
 //Example from book
-
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
@@ -114,13 +113,13 @@ public class SeparateChainingHashST<Key, Value> {
     }
 
     double getXi2() {
-        AtomicReference<Double> sum = new AtomicReference<Double>((double) 0);
         double c = (double) size() / capacity();
-        Arrays.stream(st).forEach((element) -> {
-            sum.set(sum.get() + Math.pow(element.size() - c, 2));
-        });
+        double sum = Arrays.stream(st).map((element) ->
+        {
+            return Math.pow(element.size() - c, 2);
+        }).mapToDouble(Double::valueOf).sum();
         // sum * (M/N)
-        return sum.get() * ((double) capacity() / size());
+        return sum * ((double) capacity() / size());
     }
 
 }
