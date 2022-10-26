@@ -49,8 +49,6 @@ public class Main {
         public LehmerRandomNumberGenerator() {
         }
 
-        ;
-
         public LehmerRandomNumberGenerator(int initNumber) {
             this.prevLehmerNumber = initNumber;
         }
