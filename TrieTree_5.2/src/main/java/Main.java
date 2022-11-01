@@ -44,16 +44,16 @@ public class Main {
     }
 
     private static void spellChecker() {
-        System.out.println("}\nWords to search?");
+        System.out.println("Words to search?");
         System.out.print(">");
         String userInputString = scanner.nextLine();
-        String[] userInputWords = userInputString.split("\\W");
-        if (userInputWords.length == 0) {
+        String[] userInputWord = userInputString.split("\\W");
+        if (userInputWord.length == 0) {
             System.out.println("There is no user words");
             System.exit(0);
         }
         System.out.println("Missing words:");
-        for (String s : userInputWords) {
+        for (String s : userInputWord) {
             if (!stringSet.contains(s)) {
                 stringSet.add(s);
                 System.out.println(s);
@@ -69,7 +69,7 @@ public class Main {
             System.out.println("Dictionary is empty!");
             System.exit(0);
         }
-        System.out.println("Words in dictionary:{");
+        System.out.println("Words in dictionary:");
         for (String s : stringSet.keys()) {
             System.out.println(s);
         }
