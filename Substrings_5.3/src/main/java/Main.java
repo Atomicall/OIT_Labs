@@ -59,13 +59,12 @@ https://stackoverflow.com/questions/56418773/when-is-rabin-karp-more-effective-t
      */
     private static int countOccurrences(String string, String substring) {
         int occurrences;
-        if (substring.length() < string.length() / 2){
+        if (substring.length() < string.length() / 2) {
             KMP kmp = new KMP(substring);
-            occurrences =  kmp.count(string);
-        }
-        else {
+            occurrences = kmp.count(string);
+        } else {
             RabinKarp rabinKarp = new RabinKarp(substring, false);
-            occurrences = rabinKarp.count(string) ;
+            occurrences = rabinKarp.count(string);
         }
         return occurrences - 1;
     }
