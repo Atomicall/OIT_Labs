@@ -4,11 +4,11 @@ import java.util.regex.Pattern;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final String PHONE_NUMBER_REGEXP = "^\\([0-9]{3}\\)\\ [0-9]{3}-[0-9]{4}$";
+    private static final String PHONE_NUMBER_REGEXP = "^\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}$";
     private static final String SOCIAL_NUMBER_REGEXP = "^[0-9]{3}-[0-9]{2}-[0-9]{4}$";
-    private static final String DATE_REGEXP = "^(January|February|March|April|May|June|July|August|September|October|November|December)\\ (0[1-9]|(1|2)[0-9]|30|31),\\ [0-9]{4}$";
+    private static final String DATE_REGEXP = "^(January|February|March|April|May|June|July|August|September|October|November|December) (0?[1-9]|([12])[0-9]|30|31), [0-9]{4}$";
     private static final String IP_ADDRESS_REGEXP = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\\.(?!$)|$)){4}$";
-    private static final String CAR_NUMBER_REGEXP = "^[0-9]{4}[A-ZА-Я5]{2}$";
+    private static final String CAR_NUMBER_REGEXP = "^[0-9]{4}[A-ZА-Я]{2}$";
     private static final Pattern phoneNumberRegexPattern = Pattern.compile(PHONE_NUMBER_REGEXP);
     private static final Pattern socialNumberRegexPattern = Pattern.compile(SOCIAL_NUMBER_REGEXP);
     private static final Pattern dateRegexPattern = Pattern.compile(DATE_REGEXP);
